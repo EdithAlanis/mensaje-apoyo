@@ -4,8 +4,14 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "sb_publishable__UgjBRf9uxweu8yEFQNvbw_wo10XxZY";
 
-const frase =
-  "de antemano muchas gracias por responder";
+const frasesCierre={
+  es:"de antemano muchas gracias por responder",
+  en:"thank you in advance for replying",
+  fr:"merci d avance de me répondre",
+  pt:"desde já muito obrigado por responder",
+  it:"grazie in anticipo per la risposta",
+  de:"vielen dank im voraus für ihre antwort"
+};
 
 const prohibidos = [
   /\b(sexo|sexual|pornograf|coito|penetraci[oó]n|masturbaci[oó]n|orgasmo)\b/i,
@@ -63,13 +69,12 @@ document
         .toLocaleLowerCase("es-MX")
         .replace(/[.\s]+$/g, "");
 
+    const lang=(window.apoyoLang||"es");
+    const frase=(frasesCierre[lang]||frasesCierre.es);
     if (!mensajeNormalizado.endsWith(frase)) {
-
-      estado.className = "error";
-
-      estado.textContent =
-        'Para enviarlo, finaliza con: “De antemano muchas gracias por responder.”';
-
+      estado.className="error";
+      const cierre=(window.apoyoCierreTexto&&window.apoyoCierreTexto[lang])||"De antemano muchas gracias por responder.";
+      estado.textContent=`Para enviarlo, finaliza con: “${cierre}”`;
       return;
     }
 
@@ -100,6 +105,7 @@ document
       folio: folio,
       nombre: nombre,
       correo: correo,
+      pais: document.getElementById("pais").value,
       motivos: motivos,
       mensaje: mensaje,
       asesor: asesor,
@@ -120,9 +126,6 @@ document
 
               "apikey":
                 SUPABASE_KEY,
-
-              "Authorization":
-                `Bearer ${SUPABASE_KEY}`,
 
               "Prefer":
                 "return=minimal"
