@@ -2,7 +2,7 @@ const SUPABASE_URL="https://mmjsgrdujjomopefkzeq.supabase.co";
 const SUPABASE_KEY="sb_publishable__UgjBRf9uxweu8yEFQNvbw_wo10XxZY";
 let session=localStorage.getItem('apoyo_session')||''; let me=null;
 const $=id=>document.getElementById(id);
-async function rpc(fn,body={}){const r=await fetch(`${SUPABASE_URL}/rest/v1/rpc/${fn}`,{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`},body:JSON.stringify(body)});if(!r.ok)throw new Error(await r.text());return await r.json();}
+async function rpc(fn,body={}){const r=await fetch(`${SUPABASE_URL}/rest/v1/rpc/${fn}`,{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY},body:JSON.stringify(body)});if(!r.ok)throw new Error(await r.text());return await r.json();}
 function paymentHTML(id){return `<div class="grid"><label>Método<select id="${id}Metodo"><option value="SPEI">SPEI / Transferencia</option><option value="PayPal">PayPal</option><option value="Efectivo">Efectivo</option></select></label><label>Nombre del titular<input id="${id}Titular" required></label><label>Banco<input id="${id}Banco" placeholder="Solo para SPEI"></label><label>CLABE (18 dígitos)<input id="${id}Clabe" inputmode="numeric" maxlength="18" placeholder="Solo para SPEI"></label><label>Correo PayPal<input id="${id}Paypal" type="email" placeholder="Solo para PayPal"></label></div>`}
 $('paymentFields').innerHTML=paymentHTML('s'); $('paymentFields2').innerHTML=paymentHTML('p');
 function paymentData(prefix){return {metodo:$(`${prefix}Metodo`).value,titular:$(`${prefix}Titular`).value.trim(),banco:$(`${prefix}Banco`).value.trim(),clabe:$(`${prefix}Clabe`).value.trim(),paypal:$(`${prefix}Paypal`).value.trim()}}
