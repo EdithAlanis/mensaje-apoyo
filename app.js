@@ -86,8 +86,10 @@ document
     const folio =
       "MAP-" + numero;
 
+    const ASESORES = Array.from({length:20}, (_,i) => 1010 + i*10);
+
     const asesor =
-      (ahora % 10) + 1;
+      ASESORES[ahora % ASESORES.length];
 
     const motivos =
       seleccionados
@@ -152,7 +154,7 @@ document
         `Solicitud recibida correctamente. ` +
         `Número de mensaje: ${folio}. ` +
         `Asignado al Asesor ` +
-        `${String(asesor).padStart(2,"0")}.`;
+        `${asesor}.`;
 
       e.target.reset();
 
